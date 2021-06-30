@@ -21,7 +21,7 @@ if(isset($_POST['register_firstname']) && isset($_POST['register_lastname']) && 
                 //Content
                 $mail->isHTML(true);
                 $mail->Subject = 'Mail From Codespace Shop';
-                $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+                $mail->Body    = 'Username: '.$register_email.' <br> Password: '.$register_password1.'<br> Website: https://css.ydev.co.za';
                 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
                 $mail->send();
