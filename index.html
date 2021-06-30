@@ -51,7 +51,6 @@
                             <img src="includes/img/profile_avatar_male.png" alt="" class="" width="45">
                           </a>
                           <ul class="dropdown-menu mt-3" aria-labelledby="dropdown03">
-                            <li><a class="dropdown-item drop-down-item" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">Shop</a></li>
                             <li><a class="dropdown-item drop-down-item" href="profile.html" v-if="getCookie('isloggedin') == 1" @click="notShop()">Profile</a></li>
                             <li><a class="dropdown-item drop-down-item" href="routes/logout.php" v-if="getCookie('isloggedin') == 1" @click="cartClear()">Logout</a></li>
                           </ul>
