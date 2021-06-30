@@ -5,13 +5,9 @@ include('mail.inc.php');
 require __DIR__ . '/../config/helpers.php';
 
 // Contact Form
-if($_POST['contact_form'] == 1) {
+if($_POST['contact-email'] && $_POST['contact-name']) {
     $contact_name = $_POST['contact-name'];
-    $contact_number = $_POST['contact-number'];
     $contact_email = $_POST['contact-email'];
-    $contact_suburb = $_POST['contact-suburb'];
-    $contact_query = $_POST['contact-query'];
-    $contact_description = $_POST['contact-description'];
     try {
         //Recipients
         $mail->addAddress($contact_email, $contact_name);
