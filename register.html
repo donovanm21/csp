@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Codespace Demo Online Store">
+        <meta name="author" content="Donovan Muskett-Yetts">
+        <title>Codespace Shop</title>
+        <!-- Bootstrap core CSS -->
+        <link href="includes/css/bootstrap.min.css" rel="stylesheet">
+        <link href="includes/css/signin.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="includes/css/custom-styles.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans&family=Roboto:wght@500&display=swap" rel="stylesheet">
+    </head>
+    <body class="text-center black-theme">
+    
+    <main class="form-signin">
+    <form action="routes/register.php" method="post" id="register-form" class="needs-validation" novalidate>
+        <img class="mb-4" src="includes/img/codespace-primary-logo.svg" alt="">
+        <h1 class="h3 mb-3 fw-normal text-white">Register Below</h1>
+        <input type="hidden" name="register_form" value="1" >
+        <!-- First Name-->
+        <div class="form-floating">
+            <input type="text" class="form-control form-top" id="firstname" placeholder="donovan" name="register_firstname" required>
+            <label for="floatingInput">First Name</label>
+        </div>
+        <!-- Last Name-->
+        <div class="form-floating">
+            <input type="text" class="form-control form-field" id="lastname" placeholder="donovan" name="register_lastname" required>
+            <label for="floatingInput">Last Name</label>
+        </div>
+        <!-- Email -->
+        <div class="form-floating">
+            <input type="email" class="form-control form-field" id="email" placeholder="name@example.com" name="register_email" required>
+            <label for="floatingInput">Email address</label>
+        </div>
+        <!-- Password -->
+        <div class="form-floating">
+            <input type="password" class="form-control form-field" id="password1" name="register_password1" onkeyup="checkPassword()" required>
+            <label for="floatingPassword">Password</label>
+        </div>
+        <!-- Confirm Password -->
+        <div class="form-floating">
+            <input type="password" class="form-control form-bottom" id="password2" name="register_password2" onkeyup="checkPassword()" required>
+            <label for="floatingPassword">Confirm Password</label>
+        </div>
+
+        <button class="w-100 btn btn-lg login-button mt-3" type="submit" name="register_user">Register</button>
+        <div class="checkbox mb-3 text-white">
+            <p class="my-3">Already registered? <a href="login.html">Login</a></p>
+        </div>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+    </form>
+    </main>
+    <script src="includes/js/scripts.js"></script>
+    <script>
+        // Bootstrap Form Validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+                })
+        })()
+
+        function checkPassword() {
+            let password1 = document.getElementById('password1');
+            let password2 = document.getElementById('password2');
+            if(password1.value !== password2.value) {
+                console.log('Password do not match');
+                password1.classList.add('border-danger')
+                password2.classList.add('border-danger')
+            } else {
+                console.log('Password Match');
+                password1.classList.remove('border-danger')
+                password2.classList.remove('border-danger')
+                password1.classList.add('border-success')
+                password2.classList.add('border-success')
+            }
+        }
+    </script>
+  </body>
+</html>

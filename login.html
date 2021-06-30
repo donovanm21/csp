@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Codespace Demo Online Store">
+        <meta name="author" content="Donovan Muskett-Yetts">
+        <title>Codespace Shop</title>
+        <!-- Bootstrap core CSS -->
+        <link href="includes/css/bootstrap.min.css" rel="stylesheet">
+        <link href="includes/css/signin.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="includes/css/custom-styles.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans&family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body class="text-center black-theme">
+    
+    <main class="form-signin" id="app-root">
+        <form action="routes/login.php" method="post">
+            <img class="mb-4" src="includes/img/codespace-primary-logo.svg" alt="">
+            <!-- Validation -->
+            <p class="text-danger" v-if="loginValidationError() ==  false"><b>Please correct the following error(s):</b></p>
+            <ul>
+                <li class="text-danger text-start" v-if="globalvars.userDoesNotExist == 1">
+                    User not found
+                </li>
+                <li class="text-danger text-start" v-if="globalvars.passDoesNotExist == 1">
+                    Incorrect password
+                </li>
+            </ul>
+
+            <div class="form-floating">
+                <input type="email" class="form-control form-top" id="floatingInput" placeholder="name@example.com" name="email">
+                <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control form-bottom mb-3" id="floatingPassword" placeholder="Password" name="password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="checkbox mb-3 text-white">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg login-button" type="submit">Sign in</button>
+            <div class="checkbox mb-3 text-white">
+                <p class="my-3">Not <a href="register.html">Registered?</a></p>
+                <!--<p class="my-3">Reset <a href="resetpassword.html">Password?</a></p>-->
+            </div>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+        </form>
+    </main>
+    <script src="includes/js/vue.js"></script>
+  </body>
+</html>

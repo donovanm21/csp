@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Codespace Demo Online Store">
+        <meta name="author" content="Donovan Muskett-Yetts">
+        <title>Codespace Shop</title>
+        <!-- Bootstrap core CSS -->
+        <link href="includes/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="includes/css/custom-styles.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans&family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+    <main class="black-theme" id="app-root">
+    <!-- Menu -->
+    <div class="container">
+        <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom heading-font">
+            <picture class="">
+            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <img class="logo" src="includes/img/codespace-primary-logo.svg" alt="Header Logo">
+            </a>
+            </picture>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 menu-border">
+                <li><a href="index.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Home</a></li>
+                <li><a href="shop.html" class="nav-link px-2 link-dark menu-item" @click="viewCollection(0)">Shop</a></li>
+                <li><a href="about.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">About</a></li>
+                <li><a href="contact.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Contact</a></li>
+            </ul>
+    
+            <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 0">
+                <a href="login.html" v-if="getCookie('isloggedin') == 0">
+                  <button class="btn login-button">Login</button>
+                </a>
+                <a href="register.html" v-if="getCookie('isloggedin') == 0">
+                  <button class="btn login-button">Sign-up</button>
+                </a>
+              </div>
+              <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 1">
+                <li class="dropdown drop-down">
+                  <a class="me-2" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">
+                    <img src="includes/img/shopping-cart-orange.png" alt="" class="" width="30">
+                    <small class="cart-icon">{{cartItems()}}</small>
+                  </a>
+                  <a style="color: white;" class="dropdown-toggle ms-3" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="includes/img/profile_avatar_male.png" alt="" class="" width="45">
+                  </a>
+                  <ul class="dropdown-menu mt-3" aria-labelledby="dropdown03">
+                    <li><a class="dropdown-item drop-down-item" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">Shop</a></li>
+                    <li><a class="dropdown-item drop-down-item" href="profile.html" v-if="getCookie('isloggedin') == 1" @click="notShop()">Profile</a></li>
+                    <li><a class="dropdown-item drop-down-item" href="routes/logout.php" v-if="getCookie('isloggedin') == 1" @click="cartClear()">Logout</a></li>
+                  </ul>
+                </li>
+              </div>
+        </nav>
+    </div>
+    <!-- Intro Title below nav -->
+    <section class="py-5 my-4 text-center container border-bottom">
+        <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-dark">Give Us a Shout</h1>
+        </div>
+        </div>
+    </section>
+  
+    <div class="container border-bottom">
+        <div class="row">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Location</h4>
+                <div class="m-auto" id="map" style="width: 100%; height: 400px;"></div>
+                <ul class="list-group list-group-flush text-dark">
+                    <li class="list-group-item"><strong>Head Office</strong></li>
+                    <li class="list-group-item">Unit 1B</li>
+                    <li class="list-group-item">123 Example Street</li>
+                    <li class="list-group-item">Example City</li>
+                    <li class="list-group-item">80000</li>
+                </ul>
+            </div>
+            <div class="col-md-7 col-lg-8 pe-5 pb-5">
+                <h4 class="mb-3" id="form-label">Contact Form</h4>
+                <form action="routes/contact.php" method="post" @submit="contactForm" novalidate>
+                    <p v-if="errors.length">
+                        <b class="text-danger">Please correct the following error(s):</b>
+                        <ul>
+                            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+                        </ul>
+                    </p>
+                    <input type="hidden" name='contact_form' value="1" />
+                    <!-- Name and Surname -->
+                    <div class="">
+                    <label for="name-surname" class="form-label">Name and Surname</label>
+                    <input type="text" class="form-control has-validation" id="name-surname" placeholder="John Doe" value="" name="contact-name" v-model="fullname" required>
+                    <div class="invalid-feedback">
+                        Valid name and surname is required.
+                    </div>
+                    </div>
+                    <!-- Contact Number -->
+                    <div class="row g-3">
+                    <div class="">
+                        <label for="contact-number" class="form-label mt-2">Contact Number</label>
+                        <input type="text" class="form-control has-validation" id="contact-number" placeholder="0821231234" value="" name="contact-number" v-model="contact" required>
+                        <div class="invalid-feedback">
+                        Valid contact number is required.
+                        </div>
+                    </div>
+                    <!-- Email Address -->
+                    <div class="col-12">
+                        <label for="email-address" class="form-label">Email Address</label>
+                        <input type="text" class="form-control" id="email-address" placeholder="john@example.com"  name="contact-email" v-model="email" required>
+                        <div class="invalid-feedback">
+                            Valid email address is required.
+                        </div>
+                    </div>
+                    <!-- Suburb or Province -->
+                    <div class="col-12">
+                        <label for="suburb-province" class="form-label">Suburb or Province</label>
+                        <input type="text" class="form-control" id="suburb-province" placeholder="West Coast"  name="contact-suburb" v-model="province" required>
+                        <div class="invalid-feedback">
+                            Valid location is required.
+                        </div>
+                    </div>
+                    <!-- Query Type-->
+                    <div class="col-12">
+                        <label for="query-type" class="form-label">Query About</label>
+                        <select class="form-select has-validation" aria-label="query-type"  name="contact-query" required>
+                            <option selected>Select Query</option>
+                            <option value="1">Products</option>
+                            <option value="2">Shipping</option>
+                            <option value="3">General</option>
+                        </select>
+                        <div class="invalid-feedback">
+                        Please select a valid option.
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="col-12">
+                        <label for="query-description" class="form-label">Query Description</label>
+                        <textarea class="form-control" id="query-description" placeholder="Need more info about this amazing product."  name="contact-description" v-model="query" required></textarea>
+                        <div class="invalid-feedback">
+                            Please add a query description.
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="btn py-3 default-site-button" type="submit" id="submit-label">Send Enquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="text-muted py-5 black-theme">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a class="text-decoration-none" href="#">Back to top</a>
+        </p>
+        <p class="mb-1">&copy; Bootstrap, but free to download and customize it for yourself!</p>
+        <p class="mb-0">New to Bootstrap? <a class="text-decoration-none" href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Visit the homepage</a> or read our getting started guide.</p>
+    </div>
+</footer>
+<script src="includes/js/bootstrap.bundle.min.js"></script>
+<script src="includes/js/maps.js"></script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcJ7nvpk_O9UFyduVaRXRzcfUo_v2SBVA&callback=initMap">
+</script>
+<script src="includes/js/vue.js"></script>
+<script>
+    // Bootstrap Form Validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+            })
+        })()
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Codespace Demo Online Store">
+        <meta name="author" content="Donovan Muskett-Yetts">
+        <title>Codespace Shop</title>
+        <!-- Bootstrap core CSS -->
+        <link href="includes/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="includes/css/custom-styles.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans&family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+    <main class="black-theme" id="app-root">
+    <!-- Menu -->
+    <div class="container">
+        <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom heading-font">
+            <picture class="">
+            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <img class="logo" src="includes/img/codespace-primary-logo.svg" alt="Header Logo">
+            </a>
+            </picture>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 menu-border">
+                <li><a href="index.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Home</a></li>
+                <li><a href="shop.html" class="nav-link px-2 link-dark menu-item" @click="viewCollection(0)">Shop</a></li>
+                <li><a href="about.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">About</a></li>
+                <li><a href="contact.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Contact</a></li>
+            </ul>
+    
+            <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 0">
+                <a href="login.html" v-if="getCookie('isloggedin') == 0">
+                  <button class="btn login-button">Login</button>
+                </a>
+                <a href="register.html" v-if="getCookie('isloggedin') == 0">
+                  <button class="btn login-button">Sign-up</button>
+                </a>
+              </div>
+              <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 1">
+                <li class="dropdown drop-down">
+                  <a class="me-2" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">
+                    <img src="includes/img/shopping-cart-orange.png" alt="" class="" width="30">
+                    <small class="cart-icon">{{cartItems()}}</small>
+                  </a>
+                  <a style="color: white;" class="dropdown-toggle ms-3" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="includes/img/profile_avatar_male.png" alt="" class="" width="45">
+                  </a>
+                  <ul class="dropdown-menu mt-3" aria-labelledby="dropdown03">
+                    <li><a class="dropdown-item drop-down-item" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">Shop</a></li>
+                    <li><a class="dropdown-item drop-down-item" href="profile.html" v-if="getCookie('isloggedin') == 1" @click="notShop()">Profile</a></li>
+                    <li><a class="dropdown-item drop-down-item" href="routes/logout.php" v-if="getCookie('isloggedin') == 1" @click="cartClear()">Logout</a></li>
+                  </ul>
+                </li>
+              </div>
+        </nav>
+    </div>
+    
+    <!-- Intro Title below nav -->
+    <section class="py-3 mt-3 text-center container">
+        <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-dark">Meet The Team</h1>
+        </div>
+        </div>
+    </section>
+
+    <!-- Team Section-->
+
+    <div class="container marketing border-bottom">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4 text-center">
+                <img  class="bd-placeholder-img rounded-circle" width="140" height="140" src="includes/img/team-ceo.jpg">
+                <h2 class="py-3">John</h2>
+                <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4 text-center">
+                <img  class="bd-placeholder-img rounded-circle" width="140" height="140" src="includes/img/team-cfo.jpg">
+                <h2 class="py-3">Caren</h2>
+                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4 text-center">
+                <img  class="bd-placeholder-img rounded-circle" width="140" height="140" src="includes/img/team-cto.jpg">
+                <h2 class="py-3">Stef</h2>
+                <p>And lastly this, the third column of representative placeholder content.</p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette py-3">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Eco friendly spaces the future. <span class="text-muted">It’ll blow your mind.</span></h2>
+                <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum 
+                    is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing 
+                    packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various 
+                    versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+            </div>
+            <div class="col-md-5">
+                <img src="includes/img/team1.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette py-3">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Simple, yet elegant spaces. <span class="text-muted">See for yourself.</span></h2>
+                <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum 
+                    is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing 
+                    packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various 
+                    versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                </div>
+            <div class="col-md-5 order-md-1">
+                <img src="includes/img/team2.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette py-3">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, the home office. <span class="text-muted">Checkmate.</span></h2>
+                <p class="lead">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum 
+                    is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing 
+                    packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various 
+                    versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                </div>
+            <div class="col-md-5">
+                <img src="includes/img/team3.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500">
+            </div>
+        </div>
+
+        <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+</main>
+
+<!-- Footer -->
+<footer class="text-muted py-5 black-theme">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a class="text-decoration-none" href="#">Back to top</a>
+        </p>
+        <p class="mb-1">&copy; Bootstrap, but free to download and customize it for yourself!</p>
+        <p class="mb-0">New to Bootstrap? <a class="text-decoration-none" href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Visit the homepage</a> or read our getting started guide.</p>
+    </div>
+</footer>
+<script src="includes/js/bootstrap.bundle.min.js"></script>
+<script src="includes/js/vue.js"></script>
+</body>
+</html>

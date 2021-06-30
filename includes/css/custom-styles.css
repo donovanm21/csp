@@ -1,0 +1,96 @@
+:root {
+    --prim-button: #659f8f;
+    --heading-font: 'Roboto', sans-serif;
+    --body-font: 'Open Sans', sans-serif;
+    --button-font: 'PT Sans', sans-serif;
+}
+
+/* ### Custom Classes ### */
+
+/* Body Styles */
+.black-theme {
+    background-color: black;
+    color: white;
+}
+.hidden {
+    display: none;
+}
+.default-site-color {
+    color: var(--prim-button);
+}
+
+/* Cart Icon */
+.cart-icon {
+    color: white;
+    text-decoration: none;
+    padding: 0px;
+    font-size: 1.2em;
+    position: absolute;
+}
+.drop-down {
+    list-style-type: none;
+}
+.drop-down-item {
+    border-bottom: 1px solid white;
+}
+.drop-down-item:hover {
+    color: var(--prim-button);
+}
+
+/* Header Logo */
+.logo {
+    min-width: 375px;
+    min-height: 35px;
+}
+
+/* Buttons */
+.default-site-button {
+    background: var(--prim-button);
+    color: white;
+    font-family: var(--button-font);
+}
+.login-button {
+    background: var(--prim-button);
+    color: white;
+    font-family: var(--button-font);
+}
+.signup-button {
+    background: var(--prim-button);
+    color: white;
+    font-family: var(--button-font);
+}
+
+/* Fonts */
+.heading-font {
+    font-family: var(--heading-font);
+}
+.body-font {
+    font-family: var(--body-font);
+}
+.csp-text {
+    font-size: 20px;
+}
+
+/* Menu Effects */
+.menu-item {
+    font-size: 1.2em;
+    color: white;
+}
+.menu-item:hover {
+    border-bottom: 1px solid var(--prim-button);
+    color: var(--prim-button);
+}
+.menu-border {
+    border-bottom: 1px solid black;
+}
+
+/* ICONS */
+.feature-icons {
+    width: 30px;
+    margin-bottom: 10px;
+}
+
+/* Check Profile */
+.profile-image {
+    width: 90%;
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Codespace Demo Online Store">
+        <meta name="author" content="Donovan Muskett-Yetts">
+        <title>Codespace Shop</title>
+        <!-- Bootstrap core CSS -->
+        <link href="includes/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="includes/css/custom-styles.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans&family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <main class="black-theme" id="app-root">
+            <!-- Menu -->
+            <div class="container">
+                <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom heading-font">
+                    <picture class="">
+                    <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                        <img class="logo" src="includes/img/codespace-primary-logo.svg" alt="Header Logo">
+                    </a>
+                    </picture>
+                    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 menu-border">
+                      <li><a href="index.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Home</a></li>
+                      <li><a href="shop.html" class="nav-link px-2 link-dark menu-item" @click="viewCollection(0)">Shop</a></li>
+                      <li><a href="about.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">About</a></li>
+                      <li><a href="contact.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Contact</a></li>
+                    </ul>
+                    <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 0">
+                      <a href="login.html" v-if="getCookie('isloggedin') == 0">
+                        <button class="btn login-button">Login</button>
+                      </a>
+                      <a href="register.html" v-if="getCookie('isloggedin') == 0">
+                        <button class="btn login-button">Sign-up</button>
+                      </a>
+                    </div>
+                    <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 1">
+                      <li class="dropdown drop-down">
+                        <a class="me-2" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">
+                          <img src="includes/img/shopping-cart-orange.png" alt="" class="" width="30">
+                          <small class="cart-icon">{{cartItems()}}</small>
+                        </a>
+                        <a style="color: white;" class="dropdown-toggle ms-3" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">
+                          <img src="includes/img/profile_avatar_male.png" alt="" class="" width="45">
+                        </a>
+                        <ul class="dropdown-menu mt-3" aria-labelledby="dropdown03">
+                          <li><a class="dropdown-item drop-down-item" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">Shop</a></li>
+                          <li><a class="dropdown-item drop-down-item" href="profile.html" v-if="getCookie('isloggedin') == 1" @click="notShop()">Profile</a></li>
+                          <li><a class="dropdown-item drop-down-item" href="routes/logout.php" v-if="getCookie('isloggedin') == 1" @click="cartClear()">Logout</a></li>
+                        </ul>
+                      </li>
+                    </div>
+                </nav>
+            </div>
+            <!-- Feature Section -->
+            <section class="py-5 text-center container border-bottom">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Codespace Shop</h1>
+                    <p class="lead text-muted">See all the collections below</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Products -->
+            <div id="product-root" class="border-bottom container" v-if="">
+              <section class="py-3 text-center container" id="collection-1">
+                <h2 class="pb-3 my-5" id="cHeading-1"></h2>
+                  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="cRow-1" @click="notShop()"></div>
+              </section>
+              <section class="py-3 text-center container" id="collection-2">
+                <h2 class="pb-3 my-5" id="cHeading-2"></h2>
+                  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="cRow-2" @click="notShop()"></div>
+              </section>
+              <section class="py-3 text-center container" id="collection-3">
+                <h2 class="pb-3 my-5" id="cHeading-3"></h2>
+                  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="cRow-3" @click="notShop()"></div>
+              </section>
+            </div>
+            <!-- Checkout Page -->
+            <div class="container border-bottom py-4" v-if="this.globalvars.checkout">
+              <div class="row g-3 mt-2">
+                <!-- Cart -->
+                <div class="col-md-5 col-lg-4 order-last d-flex align-items-center">
+                  <div class="bg-light text-dark rounded p-4 w-100">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge">{{cartItems()}}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex lh-sm" v-for="item in cart">
+                        <img class="flex-shrink-1" src="includes/img/remove.png" width="24" height="24" @click="removeItem(item)">
+                        <div>
+                        <h6 class="my-0 px-3">{{item.pH}}</h6>
+                        </div>
+                        <span class="text-muted ms-auto">{{item.pP}}</span>
+                    </li>
+                    <li class="list-group-item d-flex lh-sm" v-if="cartItems() == 0">
+                      <div>
+                      <h6 class="my-0">Nothing in Cart</h6>
+                      </div>
+                      <span class="text-muted ms-auto"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Available CSP</span>
+                      <strong>{{globalvars.points}}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Cart Total CSP</span>
+                      <div v-if="cartPointCheck()">
+                        <strong>{{cartTotal()}}</strong>
+                      </div>
+                      <div v-if="!cartPointCheck()">
+                        <strong class="text-danger">{{cartTotal()}}</strong>
+                      </div>
+                    </li>
+                    </ul>
+                    <button class="w-100 btn btn-lg mb-4 default-site-button" type="button" @click="addBadges()">Get Badges</button>
+                    <button class="w-100 btn btn-secondary btn-lg" type="button" @click="toggleCheckOut()">Back to Shop</button>
+                  </div>
+                </div>
+                <!-- Checkout Form -->
+                <div class="col-md-7 col-lg-8 pe-md-5">
+                    <h1 class="mb-3">Profile Info</h1>
+                      <hr class="my-4">
+          
+                      <div class="row gy-3">
+                          <div class="col-md-6">
+                              <img src="includes/img/profile_avatar_male.png" alt="" class="w-100">
+                      </div>
+          
+                      <div class="col-md-6 ">
+                          <h2 class="display-6 heading-font">Name</h2>
+                          <p class="h4 body-font default-site-color">{{globalvars.firstname}}</p>
+                          <h2 class="display-6 heading-font">Surname</h2>
+                          <p class="h4 body-font default-site-color">{{globalvars.lastname}}</p>
+                          <h2 class="display-6 heading-font">Email Address</h2>
+                          <p class="h4 body-font default-site-color">{{globalvars.email}}</p>
+                          <h2 class="display-6 heading-font">Points Balance</h2>
+                          <p class="h4 body-font default-site-color">{{globalvars.points}} <small style="color: white;">csp</small></p>
+                      </div>
+                  </div>
+                  <hr class="my-4">
+                </div>
+              </div>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="text-muted py-5 black-theme">
+          <div class="container">
+              <p class="float-end mb-1">
+                  <a class="text-decoration-none" href="#">Back to top</a>
+              </p>
+              <p class="mb-1">&copy; Bootstrap, but free to download and customize it for yourself!</p>
+              <p class="mb-0">New to Bootstrap? <a class="text-decoration-none" href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Visit the homepage</a> or read our getting started guide.</p>
+          </div>
+        </footer>
+        <script src="includes/js/bootstrap.bundle.min.js"></script>
+        <script src="includes/js/vue.js"></script>
+        <script src="includes/js/scripts.js"></script>
+        <script>
+          getBadges()          
+        </script>
+    </body>
+</html>

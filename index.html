@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Codespace Demo Online Store">
+        <meta name="author" content="Donovan Muskett-Yetts">
+        <title>Codespace Shop</title>
+        <!-- Bootstrap core CSS -->
+        <link href="includes/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="includes/css/custom-styles.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans&family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <main class="black-theme" id="app-root">
+            <!-- Menu -->
+            <div class="container">
+                <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom heading-font">
+                    <picture class="">
+                    <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                        <img class="logo" src="includes/img/codespace-primary-logo.svg" alt="Header Logo">
+                    </a>
+                    </picture>
+                    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 menu-border">
+                        <li><a href="index.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Home</a></li>
+                        <li><a href="shop.html" class="nav-link px-2 link-dark menu-item" @click="viewCollection(0)">Shop</a></li>
+                        <li><a href="about.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">About</a></li>
+                        <li><a href="contact.html" class="nav-link px-2 link-dark menu-item" @click="notShop()">Contact</a></li>
+                    </ul>
+            
+                    <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 0">
+                        <a href="login.html" v-if="getCookie('isloggedin') == 0">
+                          <button class="btn login-button">Login</button>
+                        </a>
+                        <a href="register.html" v-if="getCookie('isloggedin') == 0">
+                          <button class="btn login-button">Sign-up</button>
+                        </a>
+                      </div>
+                      <div class="col-md-3 text-end" v-if="getCookie('isloggedin') == 1">
+                        <li class="dropdown drop-down">
+                          <a class="me-2" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">
+                            <img src="includes/img/shopping-cart-orange.png" alt="" class="" width="30">
+                            <small class="cart-icon">{{cartItems()}}</small>
+                          </a>
+                          <a style="color: white;" class="dropdown-toggle ms-3" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="includes/img/profile_avatar_male.png" alt="" class="" width="45">
+                          </a>
+                          <ul class="dropdown-menu mt-3" aria-labelledby="dropdown03">
+                            <li><a class="dropdown-item drop-down-item" href="shop.html" v-if="getCookie('isloggedin') == 1" @click="toggleCheckOut()" style="text-decoration: none;">Shop</a></li>
+                            <li><a class="dropdown-item drop-down-item" href="profile.html" v-if="getCookie('isloggedin') == 1" @click="notShop()">Profile</a></li>
+                            <li><a class="dropdown-item drop-down-item" href="routes/logout.php" v-if="getCookie('isloggedin') == 1" @click="cartClear()">Logout</a></li>
+                          </ul>
+                        </li>
+                      </div>
+                </nav>
+            </div>
+            <!-- Feature Section -->
+            <section class="py-5 text-center container border-bottom">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Complete Your Collections</h1>
+                    <p class="lead text-muted">It's simple, complete the course work challenges to earn codespace points (CSP). The points you earn you can spend here to buy your badges. Show off your collections to the rest of the students.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Products -->
+            <section class="py-3 text-center container border-bottom">
+                <h2 class="pb-3">Featured Badges</h2>
+                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                    <div class="col">
+                      <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3 text-light bg-dark">
+                          <h4 class="my-0 fw-normal heading-font">HTML Gold</h4>
+                        </div>
+                        <div class="card-body">
+                          <img class="" src="includes/img/1.png" alt="">
+                          <h1 class="card-title pricing-card-title my-2 text-dark">500<small class="text-muted fw-light csp-text">CSP</small></h1>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                          <div class="card-header py-3 text-light bg-dark">
+                            <h4 class="my-0 fw-normal heading-font">HTML Silver</h4>
+                          </div>
+                          <div class="card-body">
+                            <img class="" src="includes/img/2.png" alt="">
+                            <h1 class="card-title pricing-card-title my-2 text-dark">280<small class="text-muted fw-light csp-text">CSP</small></h1>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                          <div class="card-header py-3 text-light bg-dark">
+                            <h4 class="my-0 fw-normal heading-font">HTML Bronze</h4>
+                          </div>
+                          <div class="card-body">
+                            <img class="" src="includes/img/3.png" alt="">
+                            <h1 class="card-title pricing-card-title my-2 text-dark">170<small class="text-muted fw-light csp-text">CSP</small></h1>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Features -->
+            <section class="border-bottom container">
+                <div class="container px-4 py-5" id="featured-3">
+                    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                        <div class="feature col">
+                            <div class="feature-icon">
+                                <img class="feature-icons" src="includes/img/html5.png" alt="">
+                            </div>
+                            <h2>HTML Collection</h2>
+                            <p>The HTML collection is considered the basis of web development and the starting point on your developer journey. Complete this collection to show you've master HTML!</p>
+                            <a href="shop.html" class="icon-link text-decoration-none" @click="viewCollection(1)">
+                                See Collection
+                                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+                            </a>
+                        </div>
+                        <div class="feature col">
+                            <div class="feature-icon">
+                                <img class="feature-icons" src="includes/img/css3.png" alt="">
+                            </div>
+                            <h2>CSS Collection</h2>
+                            <p>Following on for HTML we have a very power styling language call Cascading Style Sheets or CSS for short. Mastering CSS means you will take your styling from basic to expert!</p>
+                            <a href="shop.html" class="icon-link text-decoration-none" @click="viewCollection(2)">
+                                See Collection
+                                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+                            </a>
+                        </div>
+                        <div class="feature col">
+                            <div class="feature-icon">
+                                <img class="feature-icons" src="includes/img/js.png" alt="">
+                            </div>
+                            <h2>Javascript Collection</h2>
+                            <p>Want to take your pages from static to dynamic? Javascript is the way to go. With JS you will master the ability to create really amazing responsive and dynamic pages.</p>
+                            <a href="shop.html" class="icon-link text-decoration-none" @click="viewCollection(3)">
+                                See Collection
+                                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer class="text-muted py-5 black-theme">
+            <div class="container">
+                <p class="float-end mb-1">
+                    <a class="text-decoration-none" href="#">Back to top</a>
+                </p>
+                <p class="mb-1">&copy; Bootstrap, but free to download and customize it for yourself!</p>
+                <p class="mb-0">New to Bootstrap? <a class="text-decoration-none" href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Visit the homepage</a> or read our getting started guide.</p>
+            </div>
+        </footer>
+        <script src="includes/js/bootstrap.bundle.min.js"></script>
+        <script>
+            
+        </script>
+        <script src="includes/js/vue.js"></script>
+    </body>
+</html>
