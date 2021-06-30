@@ -48,19 +48,17 @@ class Users {
                 redirect('index.html');
 
             } else {
-                echo 'Password did not match';
+                redirect('login.html');
                 // Create Cookie
                 createCookie('userDoesNotExist', 0);
                 createCookie('passDoesNotExist', 1);
                 // redirect
-                redirect('login.html');
             }
         } else {
-            echo 'Email not found';
+            redirect('login.html');
             // Create Cookie
             createCookie('userDoesNotExist', 1);
             // redirect
-            redirect('login.html');
         }
         $db = null;
         
