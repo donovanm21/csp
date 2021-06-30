@@ -92,13 +92,13 @@ const app = new Vue({
             this.setLocalStorage(this.globalvars, 'globalvars')
         }
         if(this.globalvars.UID) {
-            url = 'https://css-api.ydev.co.za:3300/api/points/'+this.getCookie('UID');
+            url = 'https://css-api.ydev.co.za/api/points/'+this.getCookie('UID');
             axios.get(url).then(response => {
                 this.globalvars.points = response.data[0]['points']
             })
         }
         if(this.globalvars.UID) {
-            url = 'https://css-api.ydev.co.za:3300/api/member/'+this.getCookie('UID');
+            url = 'https://css-api.ydev.co.za/api/member/'+this.getCookie('UID');
             axios.get(url).then(response => {
                 this.globalvars.firstname = response.data[0]['firstname']
                 this.globalvars.lastname = response.data[0]['lastname']
@@ -107,7 +107,7 @@ const app = new Vue({
             this.setLocalStorage(this.globalvars, 'globalvars')
         }
         if(this.globalvars.UID) {
-            url = 'https://css-api.ydev.co.za:3300/api/members/'+this.getCookie('UID');
+            url = 'https://css-api.ydev.co.za/api/members/'+this.getCookie('UID');
             axios.get(url).then(response => {
                 this.ownB = response.data
                 for(i = 0; i < this.ownB.length; i++) {
@@ -187,17 +187,17 @@ const app = new Vue({
         },
         addBadges() {
             if(this.globalvars.UID && this.cart.length != 0) {
-                url = 'https://css-api.ydev.co.za:3300/api/points/'+this.getCookie('UID');
+                url = 'https://css-api.ydev.co.za/api/points/'+this.getCookie('UID');
                 payload = { amount: this.globalvars.points };
                 axios.post(url, payload).then(response => {
                     if(response.data === true) {
                         for(x = 0; x < this.cart.length; x++) {
-                            addUrl = 'https://css-api.ydev.co.za:3300/api/badges/add/'+this.getCookie('UID');
+                            addUrl = 'https://css-api.ydev.co.za/api/badges/add/'+this.getCookie('UID');
                             badgeDetails = { badgeid: this.cart[x].id };
                             axios.post(addUrl, badgeDetails).then(res => {
                                 console.log(res.data)
                             })
-                            pointsUrl = 'https://css-api.ydev.co.za:3300/api/points/'+this.getCookie('UID');
+                            pointsUrl = 'https://css-api.ydev.co.za/api/points/'+this.getCookie('UID');
                             pointsBalance = this.globalvars.points - this.cart[x].pP;
                             pointsPayload = { amount: pointsBalance };
                             axios.put(pointsUrl, pointsPayload).then(res => {

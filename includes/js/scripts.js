@@ -76,7 +76,7 @@ function getProduct(id) {
 
 async function setBadge() {
     const id = getCookie('selectedProduct');
-    apiBadgeURL = 'https://css-api.ydev.co.za:3300/api/badges/'+id;
+    apiBadgeURL = 'https://css-api.ydev.co.za/api/badges/'+id;
     const res1 = await fetch(apiBadgeURL);
     const data1 = await res1.json();
     let arr1 = [];
@@ -94,12 +94,12 @@ async function setBadge() {
 }
 
 async function getBadges() {
-    apiBadgeURL = 'https://css-api.ydev.co.za:3300/api/badges';
+    apiBadgeURL = 'https://css-api.ydev.co.za/api/badges';
     const res1 = await fetch(apiBadgeURL);
     const data1 = await res1.json();
     let arr1 = [];
     arr1.push(data1)
-    apiCollectionsURL = 'https://css-api.ydev.co.za:3300/api/collections';
+    apiCollectionsURL = 'https://css-api.ydev.co.za/api/collections';
     const res2 = await fetch(apiCollectionsURL);
     const data2 = await res2.json();
     let arr2 = [];
@@ -139,7 +139,7 @@ function updateBadges(bId) {
 }
 
 async function membersUpdate(mId) {
-    memberAPI = 'https://css-api.ydev.co.za:3300/api/members/' + mId;
+    memberAPI = 'https://css-api.ydev.co.za/api/members/' + mId;
     const res = await fetch(memberAPI);
     const data = await res.json();
     let arr = [];
@@ -153,14 +153,14 @@ async function membersUpdate(mId) {
 }
 
 async function memberPoints(mId) {
-    pointsAPI = 'https://css-api.ydev.co.za:3300/api/points/' + mId;
+    pointsAPI = 'https://css-api.ydev.co.za/api/points/' + mId;
     const res = await fetch(pointsAPI);
     const data = await res.json();
     return data[0]['points'];
 }
 
 async function ownedBadges(mId) {
-    pointsAPI = 'https://css-api.ydev.co.za:3300/api/members/' + mId;
+    pointsAPI = 'https://css-api.ydev.co.za/api/members/' + mId;
     const res = await fetch(pointsAPI);
     const data = await res.json();
     const arr = []
