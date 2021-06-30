@@ -24,9 +24,9 @@ if($_POST['contact_form'] == 1) {
     
         $mail->send();
         // redirect
-        redirect('index.html');
+        header('location: index.html');
     } catch (Exception $e) {
         // redirect
-        redirect('index.html');
+        header('location: index.html');
     }
 }
