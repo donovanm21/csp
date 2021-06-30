@@ -5,7 +5,7 @@ include('mail.inc.php');
 require __DIR__ . '/../config/helpers.php';
 
 // Contact Form
-if($_POST['contact-email'] && $_POST['contact-name']) {
+if($_POST['contact-email'] != '' && $_POST['contact-name'] != '') {
     $contact_name = $_POST['contact-name'];
     $contact_email = $_POST['contact-email'];
     try {
