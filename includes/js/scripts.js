@@ -1,3 +1,27 @@
+function registerUser() {
+    let firstname = document.getElementById('firstname').value;
+    let lastname = document.getElementById('lastname').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password1').value;
+
+    const data = { firstname : firstname, lastname : lastname, email : email, password : password }
+
+    fetch('http://localhost:8888/user/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
 function getProducts(cId, pId, cName, pName, pPrice, pImage) {
     // Dynamic Products Root
     const productRoot = document.getElementById('product-root');
@@ -76,7 +100,7 @@ function getProduct(id) {
 
 async function setBadge() {
     const id = getCookie('selectedProduct');
-    apiBadgeURL = 'https://css-api.ydev.co.za/api/badges/'+id;
+    apiBadgeURL = 'http://192.168.33.10:3000/api/badges/'+id;
     const res1 = await fetch(apiBadgeURL);
     const data1 = await res1.json();
     let arr1 = [];
@@ -94,12 +118,12 @@ async function setBadge() {
 }
 
 async function getBadges() {
-    apiBadgeURL = 'https://css-api.ydev.co.za/api/badges';
+    apiBadgeURL = 'http://192.168.33.10:3000/api/badges';
     const res1 = await fetch(apiBadgeURL);
     const data1 = await res1.json();
     let arr1 = [];
     arr1.push(data1)
-    apiCollectionsURL = 'https://css-api.ydev.co.za/api/collections';
+    apiCollectionsURL = 'http://192.168.33.10:3000/api/collections';
     const res2 = await fetch(apiCollectionsURL);
     const data2 = await res2.json();
     let arr2 = [];
@@ -139,7 +163,7 @@ function updateBadges(bId) {
 }
 
 async function membersUpdate(mId) {
-    memberAPI = 'https://css-api.ydev.co.za/api/members/' + mId;
+    memberAPI = 'http://192.168.33.10:3000/api/members/' + mId;
     const res = await fetch(memberAPI);
     const data = await res.json();
     let arr = [];
@@ -153,14 +177,14 @@ async function membersUpdate(mId) {
 }
 
 async function memberPoints(mId) {
-    pointsAPI = 'https://css-api.ydev.co.za/api/points/' + mId;
+    pointsAPI = 'http://192.168.33.10:3000/api/points/' + mId;
     const res = await fetch(pointsAPI);
     const data = await res.json();
     return data[0]['points'];
 }
 
 async function ownedBadges(mId) {
-    pointsAPI = 'https://css-api.ydev.co.za/api/members/' + mId;
+    pointsAPI = 'http://192.168.33.10:3000/api/members/' + mId;
     const res = await fetch(pointsAPI);
     const data = await res.json();
     const arr = []

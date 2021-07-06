@@ -1,2 +1,3 @@
 config/config.php
 routes/mail.inc.php
+api/node_modules
