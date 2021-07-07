@@ -26,7 +26,7 @@ This web application uses the api located at css-api.ydev.co.za to retrieve info
 
 The checkout process is also done via the API.
 
-## Deplot the API
+## Deploying the API
 
 The API is easy to deploy via docker and assumes you have docker setup and running on the same system
 

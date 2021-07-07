@@ -195,13 +195,13 @@ const app = new Vue({
                             addUrl = 'http://192.168.33.10:3000/api/badges/add/'+this.getCookie('UID');
                             badgeDetails = { badgeid: this.cart[x].id };
                             axios.post(addUrl, badgeDetails).then(res => {
-                                console.log(res.data)
+                                const badgedata = res.data
                             })
                             pointsUrl = 'http://192.168.33.10:3000/api/points/'+this.getCookie('UID');
                             pointsBalance = this.globalvars.points - this.cart[x].pP;
                             pointsPayload = { amount: pointsBalance };
                             axios.put(pointsUrl, pointsPayload).then(res => {
-                                console.log(res.data)
+                                const pointsdata = res.data
                             })
                         }
                         this.cartClear()
@@ -210,7 +210,7 @@ const app = new Vue({
                         document.getElementById('collection-2').classList.remove('hidden')
                         document.getElementById('collection-3').classList.remove('hidden')
                     } else {
-                        console.log('Not enough points')
+                        return 'Not enough points'
                     }
                 })
             }
@@ -262,10 +262,6 @@ const app = new Vue({
         },
         scrollToTop() {
             window.scrollTo(0,0);
-        },
-        onChange(event, prop, value) {
-            console.log(event.target.value)
-            this.setLocalStorage(prop, value)
         },
         setLocalStorage(parseItem, itemName) {
             const parseLocalStorage = JSON.stringify(parseItem)
